@@ -23,7 +23,7 @@ document.addEventListener("alpine:init", () => {
       "steel",
       "fairy",
     ],
-    activeType: "",
+    activeType: Alpine.$persist(""),
 
     // Initialize by fetching pokemon automatically on page load
     init() {
