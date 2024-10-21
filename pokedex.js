@@ -1,10 +1,9 @@
 document.addEventListener("alpine:init", () => {
   Alpine.data("pokedex", () => ({
+    // Persist the search using Alpine.js Persist Plugin
     search: Alpine.$persist(""),
     pokemonList: [],
     loading: false,
-    offset: 0,
-    limit: 25,
     types: [
       "normal",
       "fire",
@@ -26,13 +25,14 @@ document.addEventListener("alpine:init", () => {
     ],
     activeType: "",
 
+    // Initialize by fetching pokemon automatically on page load
     init() {
       this.fetchPokemon();
     },
 
+    // Fetch Pokémon data from pokeapi.co
     fetchPokemon() {
       this.loading = true;
-      console.log(this.offset);
       fetch(`https://pokeapi.co/api/v2/pokemon?limit=151`)
         .then((response) => response.json())
         .then((data) => {
@@ -47,7 +47,6 @@ document.addEventListener("alpine:init", () => {
         })
         .then((pokemons) => {
           this.pokemonList.push(...pokemons);
-          this.offset += this.limit;
         })
         .catch((error) => console.error(error))
         .finally(() => {
@@ -55,21 +54,24 @@ document.addEventListener("alpine:init", () => {
         });
     },
 
+    // Search Pokémon based on the search
     searchPokemon() {
-      this.offset = 0;
       this.pokemonList = [];
       this.fetchPokemon();
     },
 
+    // Set the active type for filtering
     filterByType(type) {
       this.activeType = type;
     },
 
+    // Clear the search and filter
     clearFilter() {
       this.search = "";
       this.activeType = "";
     },
 
+    // Computed property to return filtered Pokemon list
     get filteredPokemon() {
       let filtered = this.pokemonList;
 
@@ -86,14 +88,7 @@ document.addEventListener("alpine:init", () => {
       return filtered;
     },
 
-    checkScroll() {
-      const listHeight = this.$refs.pokemonList.scrollHeight;
-      const scrollHeight = window.innerHeight + window.scrollY;
-      if (scrollHeight >= listHeight - 50 && !this.loading) {
-        this.fetchPokemon();
-      }
-    },
-
+    // Get CSS classes depends on types
     getTypeClass(type) {
       const typeClasses = {
         normal: "bg-gray-300 text-gray-800",
@@ -115,7 +110,7 @@ document.addEventListener("alpine:init", () => {
         steel: "bg-gray-400 text-gray-800",
         fairy: "bg-pink-200 text-pink-800",
       };
-      return typeClasses[type] || "bg-gray-300 text-gray-800"; // Classe par défaut
+      return typeClasses[type] || "bg-gray-300 text-gray-800";
     },
   }));
 });
