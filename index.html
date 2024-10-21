@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Pokedex with search, filters and types">
+    <link rel="icon" type="image/png" href="favicon.png">
+    <title>Alpine.js · Pokédex</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@alpinejs/persist@latest/dist/cdn.min.js"></script>
+    <script defer src="https://unpkg.com/alpinejs"></script>
+
+    <script src="pokedex.js"></script>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body x-data="pokedex" @scroll.window="checkScroll" class="bg-gray-100">
+    <h1 class="text-2xl font-bold mb-4 text-center">Pokédex</h1>
+
+    <div class="container mx-auto p-5">
+        <div class="text-center mb-5">
+            <label for="search" class="sr-only">Search for a Pokemon</label>
+            <div class="relative w-full max-w-md mx-auto">
+                <input type="text" id="search" x-model="search" placeholder="Search for a Pokemon..."
+                    @input="searchPokemon"
+                    class="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500 transition pr-10"
+                    aria-describedby="search-help">
+                <button x-cloak x-show="search" @click="clearFilter"
+                    class="absolute inset-y-0 right-0 flex items-center pr-2">
+                    <i class="ph ph-x text-gray-500 cursor-pointer hover:text-gray-700" title="Clear search"></i>
+                </button>
+            </div>
+        </div>
+
+        <div class="block text-center mb-8 leading-8">
+            <button @click="clearFilter" class="filter-button">Tous</button>
+            <template x-for="type in types" :key="type">
+                <button @click="filterByType(type)" :class="{'active': activeType === type}" class="filter-button">
+                    <span :class="getTypeClass(type)" class="tag py-1 px-2 mx-1 rounded-sm" x-text="type"></span>
+                </button>
+            </template>
+        </div>
+
+        <div x-cloak x-show="loading" aria-live="polite" class="text-center text-lg text-gray-600">Loading...</div>
+
+        <main>
+            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4 mt-4" x-ref="pokemonList">
+                <template x-for="pokemon in filteredPokemon" :key="pokemon.id">
+                    <section class="pokemon-card bg-white border border-gray-200 rounded-md p-4 shadow-md text-center"
+                        role="group">
+                        <img :src="pokemon.sprites.front_default" alt="Sprite of {{ pokemon.name }}"
+                            class="mx-auto mb-2" width="100">
+                        <div class="pokemon-name text-lg font-semibold text-gray-700" x-text="pokemon.name"></div>
+                        <div class="mt-2">
+                            <template x-for="type in pokemon.types" :key="type.type.name">
+                                <span :class="getTypeClass(type.type.name)"
+                                    class="tag py-[1px] px-1 mx-[2px] rounded-sm" x-text="type.type.name"></span>
+                            </template>
+                        </div>
+                    </section>
+                </template>
+            </div>
+        </main>
+    </div>
+</body>
+
+</html>

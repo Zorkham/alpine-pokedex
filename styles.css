@@ -1,0 +1,85 @@
+[x-cloak] {
+    display: none;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 20px;
+    background-color: #f0f0f0;
+}
+
+.search-container {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.search-container input {
+    width: 80%;
+    max-width: 400px;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    transition: border-color 0.3s;
+}
+
+.search-container input:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+.pokemon-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 10px;
+}
+
+.pokemon-card {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    background-color: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    transition: transform 0.2s;
+}
+
+.pokemon-card:hover {
+    transform: scale(1.05);
+}
+
+.pokemon-name {
+    font-weight: bold;
+    text-transform: capitalize;
+    margin-top: 5px;
+}
+
+.loading {
+    text-align: center;
+    margin: 20px 0;
+    font-size: 18px;
+    color: #555;
+}
+
+@media (max-width: 600px) {
+    .search-container input {
+        width: 100%;
+    }
+}
+
+.tag {
+    @apply inline-block bg-gray-200 text-gray-800 rounded-full px-3 py-1 text-xs font-semibold mr-2 mb-2 shadow;
+}
+
+.tag:hover {
+    @apply bg-gray-300;
+}
+
+.filter-button {
+    @apply bg-blue-500 text-white rounded-md px-4 py-2 m-1 hover:bg-blue-600 focus:outline-none;
+}
+
+.filter-button.active {
+    @apply bg-blue-600;
+}
