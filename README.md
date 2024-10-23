@@ -9,7 +9,7 @@ Alpine Pokedex is a
 ## Features
 
 - **API Integration:** The application uses the [PokeAPI](https://pokeapi.co) API to fetch pokemon data.
-- **Search:** Search for a Pokemon by name or ID.
+- **Search:** Search for a Pokemon by name.
 - **Filter:** Filter Pokemon by type.
 - **Local Storage:** Filters and search query are stored in the local storage.
 - **Responsive Design**: The application is responsive and works on all devices.
